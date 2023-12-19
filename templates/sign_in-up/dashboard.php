@@ -8,7 +8,7 @@
 
     include('db.php');
     // Récupérer tous les utilisateurs
-    $query = "SELECT id, username FROM users";
+    $query = "SELECT id, username FROM users WHERE username != '{$_SESSION['username']}'";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
