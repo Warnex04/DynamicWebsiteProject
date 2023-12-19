@@ -1,0 +1,120 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Ajustez selon l'espace souhaité entre les éléments */
+    padding: 3em;
+    border: 2px solid #DAA06D; /* Changed from dashed to solid as per your second image */
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .4s ease-in-out;
+    align-items: center; /* To center align the form contents */
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .input-group label {
+    align-self: flex-start;
+    color: #DAA06D;
+    margin-bottom: 5px; /* Space between label and input */
+  }
+  
+  .form .input {
+    outline: none;
+    padding: 1em;
+    border: 1px solid #DAA06D;
+    color: #DAA06D;
+    width: 100%; /* Full width to match the form */
+    border-radius: 10px;
+    background-color: #EADDCA;
+    text-align: left;
+  }
+  
+  ::placeholder {
+    color: #DAA06D;
+    text-align: left;
+  }
+  
+  /* The rest of your CSS remains unchanged */
+  
+  .form .input {
+    outline: none;
+    padding: 0.5em;
+    border: 1px solid #DAA06D;
+    color: #DAA06D;
+    width: 14em;
+    height: 3em;
+    border-radius: 10px;
+    background-color: #EADDCA;
+    text-align: center;
+  }
+  
+  .form .btn {
+    align-self: center;
+    margin-top: 2em;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    color: white;
+    background-color: #E5AA70;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    transition: .4s ease-in-out opacity,.1s ease-in-out active;
+    padding: 1em;
+    box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .form .btn:hover {
+    opacity: 0.8;
+  }
+  
+  .form .btn:active {
+    transform: translateX(0.1em) translateY(0.1em);
+    box-shadow: none;
+  }
+
+  .form .input::placeholder {
+    /* For most modern browsers */
+    text-align: center;
+    opacity: 1; /* Ensures that the placeholder is fully visible */
+  }
+  /* Assurez-vous que le body utilise toute la hauteur et est centré */
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('bib.jpg'); /* Ajoutez l'URL de votre image ici */
+    background-size: cover; /* Cela garantit que l'image couvre tout l'arrière-plan */
+    background-position: center; /* Cela centre l'image sur la page */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+}
+
+  .form .heading {
+    color: #DAA06D; /* Adjust the color as needed */
+    font-size: 1,5em; /* Adjust the size as needed */
+    font-weight: bold; /* Makes the font bold */
+    letter-spacing: 0.2em; /* Adjust letter spacing to match your design */
+    text-transform: uppercase; /* Transforms text to uppercase */
+    background-color: transparent;
+    text-align: center;
+    margin: 0; /* Removes default margin */
+    padding: 2em 0; /* Adjust padding to control space around the text */
+    text-shadow: none; /* Remove text shadow if it's not needed */
+  }
+  
+  .error-message {
+    height: 20px; /* Hauteur fixe pour le message d'erreur */
+    color: red;
+    visibility: hidden; /* Cachez par défaut */
+    margin-bottom: 10px;
+}
+
+.input-error {
+    visibility: visible; /* Affichez le message d'erreur lorsque nécessaire */
+}
