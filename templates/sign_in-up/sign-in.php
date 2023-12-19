@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <a href="sign-up.php">Enregistrer</a>
 
- 
-
 </body>
 </html>
+
