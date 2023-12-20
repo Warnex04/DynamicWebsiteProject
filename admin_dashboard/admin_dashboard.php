@@ -210,16 +210,16 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
         <section class="table-container">
           <h2>Admins</h2>
           <form method="get" action="admin_dashboard.php">
-            <input type="text" name="search_term_admin" placeholder="Search admins..." />
+            <input class="input" type="text" name="search_term_admin" placeholder="Search admins..." />
             <!-- Checkboxes for selecting columns to search -->
-            <label>
-              <input type="checkbox" name="admin_search_columns[]" value="FirstName" checked> First Name </label>
-            <label>
-              <input type="checkbox" name="admin_search_columns[]" value="LastName" checked> Last Name </label>
-            <label>
-              <input type="checkbox" name="admin_search_columns[]" value="Mail"> Email </label>
-            <label>
-              <input type="checkbox" name="admin_search_columns[]" value="Phone"> Phone </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="admin_search_columns[]" value="FirstName"> <span>First Name </span></label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="admin_search_columns[]" value="LastName"> <span>Last Name</span></label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="admin_search_columns[]" value="Mail"> <span>Email</span></label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="admin_search_columns[]" value="Phone"> <span>Phone</span> </label>
             <!-- Submit button -->
             <button type="submit">Search</button>
           </form>
@@ -250,16 +250,16 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
           <h2>Authors</h2>
           <!-- Form for searching the Author table -->
           <form method="get" action="admin_dashboard.php">
-            <input type="text" name="search_term_author" placeholder="Search authors..." />
+            <input class="input" type="text" name="search_term_author" placeholder="Search authors..." />
             <!-- Checkboxes for selecting columns to search -->
-            <label>
-              <input type="checkbox" name="author_search_columns[]" value="FirstName" checked> First Name </label>
-            <label>
-              <input type="checkbox" name="author_search_columns[]" value="LastName" checked> Last Name </label>
-            <label>
-              <input type="checkbox" name="author_search_columns[]" value="BirthDate"> Birthdate </label>
-            <label>
-              <input type="checkbox" name="author_search_columns[]" value="Nationality"> Nationality </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="author_search_columns[]" value="FirstName"> <span>First Name</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="author_search_columns[]" value="LastName"> <span>Last Name</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="author_search_columns[]" value="BirthDate"> <span>Birthdate</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="author_search_columns[]" value="Nationality"> <span>Nationality</span> </label>
             <!-- Submit button -->
             <button type="submit">Search</button>
           </form>
@@ -289,16 +289,16 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
           <h2>Books</h2>
           <!-- Search form for the Book table -->
           <form method="get" action="admin_dashboard.php">
-            <input type="text" name="search_term_book" placeholder="Search books..." />
+            <input class="input" type="text" name="search_term_book" placeholder="Search books..." />
             <!-- Checkboxes for selecting columns to search -->
-            <label>
-              <input type="checkbox" name="book_search_columns[]" value="Title" checked> Title </label>
-            <label>
-              <input type="checkbox" name="book_search_columns[]" value="Summary"> Summary </label>
-            <label>
-              <input type="checkbox" name="book_search_columns[]" value="NbPages"> Number of Pages </label>
-            <label>
-              <input type="checkbox" name="book_search_columns[]" value="Category"> Category </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="book_search_columns[]" value="Title"> <span>Title</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="book_search_columns[]" value="Summary"> <span>Summary</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="book_search_columns[]" value="NbPages"> <span>Number of Pages</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="book_search_columns[]" value="Category"> <span>Category</span> </label>
             <!-- Submit button -->
             <button type="submit">Search</button>
           </form>
@@ -328,12 +328,12 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
           <h2>Ecrit</h2>
           <!-- Search form for the Ecrit table -->
           <form method="get" action="admin_dashboard.php">
-            <input type="text" name="search_term_ecrit" placeholder="Search ecrit records..." />
+            <input class="input" type="text" name="search_term_ecrit" placeholder="Search ecrit records..." />
             <!-- Checkboxes for selecting columns to search -->
-            <label>
-              <input type="checkbox" name="ecrit_search_columns[]" value="Num" checked> Author Num </label>
-            <label>
-              <input type="checkbox" name="ecrit_search_columns[]" value="ISSN" checked> Book ISSN </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="ecrit_search_columns[]" value="Num"> <span>Author Num</span> </label>
+            <label class="cl-checkbox">
+              <input type="checkbox" name="ecrit_search_columns[]" value="ISSN"> <span>Book ISSN</span> </label>
             <!-- Submit button -->
             <button type="submit">Search</button>
           </form>
