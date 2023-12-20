@@ -38,7 +38,6 @@ $searchBook = isset($_GET['search_book']) ? $_GET['search_book'] : '';
 $searchEcrit = isset($_GET['search_ecrit']) ? $_GET['search_ecrit'] : '';
 
 
-// Modify your fetchTableData function or SQL query for the admin table
 // Function to validate if the provided column is allowed
 function validateColumn($column, $allowedColumns) {
     return in_array($column, $allowedColumns, true);
@@ -133,288 +132,232 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Admin Dashboard</h1>
+      <h1>Admin Dashboard</h1>
     </header>
     <nav id="admin-nav">
-        <ul>
-            <li><a href="add_book.php">Add Book</a></li>
-            <li><a href="manage_authors.php">Manage Authors</a></li>
-            <li><a href="view_users.php">View Users</a></li>
-            <li><a href="site_settings.php">Site Settings</a></li>
-        </ul>
+      <ul>
+        <li>
+          <a href="add_book.php">Add Book</a>
+        </li>
+        <li>
+          <a href="manage_authors.php">Manage Authors</a>
+        </li>
+        <li>
+          <a href="view_users.php">View Users</a>
+        </li>
+        <li>
+          <a href="site_settings.php">Site Settings</a>
+        </li>
+      </ul>
     </nav>
-        <main>
-        <section id="welcome">
-            <h2>Welcome, Admin!</h2>
-            <p>This is your dashboard, where you can manage the entire library.</p>
-        </section>
-        <section id="stats">
-            <div class="stat">
-                <h3>Books in Library</h3>
-                <p>1234</p>
-            </div>
-            <div class="stat">
-                <h3>Active Users</h3>
-                <p>234</p>
-            </div>
-            <div class="stat">
-                <h3>Authors Registered</h3>
-                <p>96</p>
-            </div>
-            <!-- More stats can be added here -->
-
-        </section>
-        <section id="latest-activity">
-            <h2>Latest Activity</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Action</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- This data would be populated with PHP from the database -->
-                    <tr>
-                        <td>Jane Doe</td>
-                        <td>Checked out "The Great Gatsby"</td>
-                        <td>2023-12-19</td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>Returned "1984"</td>
-                        <td>2023-12-18</td>
-                    </tr>
-                    <!-- More rows can be added here -->
-                </tbody>
-            </table>
-        </section>
-        <div class="dashboard-grid">
+    <main>
+      <section id="welcome">
+        <h2>Welcome, Admin!</h2>
+        <p>This is your dashboard, where you can manage the entire library.</p>
+      </section>
+      <section id="stats">
+        <div class="stat">
+          <h3>Books in Library</h3>
+          <p>1234</p>
+        </div>
+        <div class="stat">
+          <h3>Active Users</h3>
+          <p>234</p>
+        </div>
+        <div class="stat">
+          <h3>Authors Registered</h3>
+          <p>96</p>
+        </div>
+        <!-- More stats can be added here -->
+      </section>
+      <section id="latest-activity">
+        <h2>Latest Activity</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Action</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- This data would be populated with PHP from the database -->
+            <tr>
+              <td>Jane Doe</td>
+              <td>Checked out "The Great Gatsby"</td>
+              <td>2023-12-19</td>
+            </tr>
+            <tr>
+              <td>John Smith</td>
+              <td>Returned "1984"</td>
+              <td>2023-12-18</td>
+            </tr>
+            <!-- More rows can be added here -->
+          </tbody>
+        </table>
+      </section>
+      <div class="dashboard-grid">
         <!-- Admin Table Section -->
         <section class="table-container">
-        <h2>Admins</h2>
-        <form method="get" action="admin_dashboard.php">
-    <input type="text" name="search_term_admin" placeholder="Search admins..." />
-    
-    <!-- Checkboxes for selecting columns to search -->
-    <label>
-        <input type="checkbox" name="admin_search_columns[]" value="FirstName" checked>
-        First Name
-    </label>
-    <label>
-        <input type="checkbox" name="admin_search_columns[]" value="LastName" checked>
-        Last Name
-    </label>
-    <label>
-        <input type="checkbox" name="admin_search_columns[]" value="Mail">
-        Email
-    </label>
-    <label>
-        <input type="checkbox" name="admin_search_columns[]" value="Phone">
-        Phone
-    </label>
-    
-    <!-- Submit button -->
-    <button type="submit">Search</button>
-</form>
-        <div class="scrollable-table">
+          <h2>Admins</h2>
+          <form method="get" action="admin_dashboard.php">
+            <input type="text" name="search_term_admin" placeholder="Search admins..." />
+            <!-- Checkboxes for selecting columns to search -->
+            <label>
+              <input type="checkbox" name="admin_search_columns[]" value="FirstName" checked> First Name </label>
+            <label>
+              <input type="checkbox" name="admin_search_columns[]" value="LastName" checked> Last Name </label>
+            <label>
+              <input type="checkbox" name="admin_search_columns[]" value="Mail"> Email </label>
+            <label>
+              <input type="checkbox" name="admin_search_columns[]" value="Phone"> Phone </label>
+            <!-- Submit button -->
+            <button type="submit">Search</button>
+          </form>
+          <div class="scrollable-table">
             <!-- Repeat the following table structure for each table -->
             <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($admins as $row): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($row['ID']); ?></td>
-                            <td><?php echo htmlspecialchars($row['FirstName']); ?></td>
-                            <td><?php echo htmlspecialchars($row['LastName']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Mail']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Phone']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody> <?php foreach ($admins as $row): ?> <tr>
+                  <td> <?php echo htmlspecialchars($row['ID']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['FirstName']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['LastName']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Mail']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Phone']); ?> </td>
+                </tr> <?php endforeach; ?> </tbody>
             </table>
-        </div>
-    </section>
-
-<!-- Author Table Section -->
-<section class="table-container">
-    <h2>Authors</h2>
-    <!-- Form for searching the Author table -->
-<!-- Form for searching the Author table -->
-<form method="get" action="admin_dashboard.php">
-    <input type="text" name="search_term_author" placeholder="Search authors..."/>
-    
-    <!-- Checkboxes for selecting columns to search -->
-    <label>
-        <input type="checkbox" name="author_search_columns[]" value="FirstName" checked>
-        First Name
-    </label>
-    <label>
-        <input type="checkbox" name="author_search_columns[]" value="LastName" checked>
-        Last Name
-    </label>
-    <label>
-        <input type="checkbox" name="author_search_columns[]" value="BirthDate">
-        Birthdate
-    </label>
-    <label>
-        <input type="checkbox" name="author_search_columns[]" value="Nationality">
-        Nationality
-    </label>
-    
-    <!-- Submit button -->
-    <button type="submit">Search</button>
-</form>
-
-
-    <div class="scrollable-table">
-        <table>
-            <thead>
+          </div>
+        </section>
+        <!-- Author Table Section -->
+        <section class="table-container">
+          <h2>Authors</h2>
+          <!-- Form for searching the Author table -->
+          <form method="get" action="admin_dashboard.php">
+            <input type="text" name="search_term_author" placeholder="Search authors..." />
+            <!-- Checkboxes for selecting columns to search -->
+            <label>
+              <input type="checkbox" name="author_search_columns[]" value="FirstName" checked> First Name </label>
+            <label>
+              <input type="checkbox" name="author_search_columns[]" value="LastName" checked> Last Name </label>
+            <label>
+              <input type="checkbox" name="author_search_columns[]" value="BirthDate"> Birthdate </label>
+            <label>
+              <input type="checkbox" name="author_search_columns[]" value="Nationality"> Nationality </label>
+            <!-- Submit button -->
+            <button type="submit">Search</button>
+          </form>
+          <div class="scrollable-table">
+            <table>
+              <thead>
                 <tr>
-                    <th>Num</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Birthdate</th>
-                    <th>Nationality</th>
+                  <th>Num</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Birthdate</th>
+                  <th>Nationality</th>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($authors as $row): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['Num']); ?></td>
-                        <td><?php echo htmlspecialchars($row['FirstName']); ?></td>
-                        <td><?php echo htmlspecialchars($row['LastName']); ?></td>
-                        <td><?php echo htmlspecialchars($row['BirthDate']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Nationality']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- Book Table Section -->
-<section class="table-container">
-    <h2>Books</h2>
-    <!-- Search form for the Book table -->
-<form method="get" action="admin_dashboard.php">
-    <input type="text" name="search_term_book" placeholder="Search books..." />
-    
-    <!-- Checkboxes for selecting columns to search -->
-    <label>
-        <input type="checkbox" name="book_search_columns[]" value="Title" checked>
-        Title
-    </label>
-    <label>
-        <input type="checkbox" name="book_search_columns[]" value="Summary">
-        Summary
-    </label>
-    <label>
-        <input type="checkbox" name="book_search_columns[]" value="NbPages">
-        Number of Pages
-    </label>
-    <label>
-        <input type="checkbox" name="book_search_columns[]" value="Category">
-        Category
-    </label>
-    
-    <!-- Submit button -->
-    <button type="submit">Search</button>
-</form>
-
-    <div class="scrollable-table">
-        <table>
-            <thead>
+              </thead>
+              <tbody> <?php foreach ($authors as $row): ?> <tr>
+                  <td> <?php echo htmlspecialchars($row['Num']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['FirstName']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['LastName']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['BirthDate']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Nationality']); ?> </td>
+                </tr> <?php endforeach; ?> </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- Book Table Section -->
+        <section class="table-container">
+          <h2>Books</h2>
+          <!-- Search form for the Book table -->
+          <form method="get" action="admin_dashboard.php">
+            <input type="text" name="search_term_book" placeholder="Search books..." />
+            <!-- Checkboxes for selecting columns to search -->
+            <label>
+              <input type="checkbox" name="book_search_columns[]" value="Title" checked> Title </label>
+            <label>
+              <input type="checkbox" name="book_search_columns[]" value="Summary"> Summary </label>
+            <label>
+              <input type="checkbox" name="book_search_columns[]" value="NbPages"> Number of Pages </label>
+            <label>
+              <input type="checkbox" name="book_search_columns[]" value="Category"> Category </label>
+            <!-- Submit button -->
+            <button type="submit">Search</button>
+          </form>
+          <div class="scrollable-table">
+            <table>
+              <thead>
                 <tr>
-                    <th>ISSN</th>
-                    <th>Title</th>
-                    <th>Summary</th>
-                    <th>Number of Pages</th>
-                    <th>Category</th>
+                  <th>ISSN</th>
+                  <th>Title</th>
+                  <th>Summary</th>
+                  <th>Number of Pages</th>
+                  <th>Category</th>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($books as $row): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['ISSN']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Summary']); ?></td>
-                        <td><?php echo htmlspecialchars($row['NbPages']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Category']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- Ecrit Table Section -->
-<section class="table-container">
-    <h2>Ecrit</h2>
-    <!-- Search form for the Ecrit table -->
-<form method="get" action="admin_dashboard.php">
-    <input type="text" name="search_term_ecrit" placeholder="Search ecrit records..." />
-    
-    <!-- Checkboxes for selecting columns to search -->
-    <label>
-        <input type="checkbox" name="ecrit_search_columns[]" value="Num" checked>
-        Author Num
-    </label>
-    <label>
-        <input type="checkbox" name="ecrit_search_columns[]" value="ISSN" checked>
-        Book ISSN
-    </label>
-    
-    <!-- Submit button -->
-    <button type="submit">Search</button>
-</form>
-
-
-    <div class="scrollable-table">
-        <table>
-            <thead>
+              </thead>
+              <tbody> <?php foreach ($books as $row): ?> <tr>
+                  <td> <?php echo htmlspecialchars($row['ISSN']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Title']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Summary']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['NbPages']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Category']); ?> </td>
+                </tr> <?php endforeach; ?> </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- Ecrit Table Section -->
+        <section class="table-container">
+          <h2>Ecrit</h2>
+          <!-- Search form for the Ecrit table -->
+          <form method="get" action="admin_dashboard.php">
+            <input type="text" name="search_term_ecrit" placeholder="Search ecrit records..." />
+            <!-- Checkboxes for selecting columns to search -->
+            <label>
+              <input type="checkbox" name="ecrit_search_columns[]" value="Num" checked> Author Num </label>
+            <label>
+              <input type="checkbox" name="ecrit_search_columns[]" value="ISSN" checked> Book ISSN </label>
+            <!-- Submit button -->
+            <button type="submit">Search</button>
+          </form>
+          <div class="scrollable-table">
+            <table>
+              <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Author Num</th>
-                    <th>Book ISSN</th>
+                  <th>ID</th>
+                  <th>Author Num</th>
+                  <th>Book ISSN</th>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($ecrits as $row): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['ID']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Num']); ?></td>
-                        <td><?php echo htmlspecialchars($row['ISSN']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</section>
-                </div>
-        
+              </thead>
+              <tbody> <?php foreach ($ecrits as $row): ?> <tr>
+                  <td> <?php echo htmlspecialchars($row['ID']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['Num']); ?> </td>
+                  <td> <?php echo htmlspecialchars($row['ISSN']); ?> </td>
+                </tr> <?php endforeach; ?> </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </main>
     <footer>
-        <p>&copy; 2023 Library</p>
+      <p>&copy; 2023 Library</p>
     </footer>
-</body>
+  </body>
 </html>
