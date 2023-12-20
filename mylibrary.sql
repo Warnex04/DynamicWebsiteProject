@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 11:57 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Dec 20, 2023 at 01:51 PM
+-- Server version: 5.7.11
+-- PHP Version: 7.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -34,22 +33,16 @@ CREATE TABLE `admin` (
   `Mail` varchar(150) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Phone` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Table structure for table `users`
+-- Dumping data for table `admin`
 --
 
-CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
-  `FirstName` varchar(100) NOT NULL,
-  `LastName` varchar(100) NOT NULL,
-  `Mail` varchar(150) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Phone` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `admin` (`ID`, `FirstName`, `LastName`, `Mail`, `Password`, `Phone`) VALUES
+(1, 'John', 'Doe', 'johndoe@example.com', 'hashed_password', '555-1234'),
+(2, 'Jane', 'Smith', 'janesmith@example.com', 'hashed_password', '555-5678'),
+(3, 'Alice', 'Johnson', 'alicejohnson@example.com', 'hashed_password', '555-9012');
 
 -- --------------------------------------------------------
 
@@ -63,7 +56,16 @@ CREATE TABLE `author` (
   `LastName` varchar(100) NOT NULL,
   `BirthDate` date NOT NULL,
   `Nationality` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `author`
+--
+
+INSERT INTO `author` (`Num`, `FirstName`, `LastName`, `BirthDate`, `Nationality`) VALUES
+(1, 'Ernest', 'Hemingway', '1899-07-21', 'American'),
+(2, 'Jane', 'Austen', '1775-12-16', 'British'),
+(3, 'Gabriel', 'García Márquez', '1927-03-06', 'Colombian');
 
 -- --------------------------------------------------------
 
@@ -77,7 +79,16 @@ CREATE TABLE `book` (
   `Summary` text NOT NULL,
   `NbPages` int(11) NOT NULL,
   `Category` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`ISSN`, `Title`, `Summary`, `NbPages`, `Category`) VALUES
+('12345678', 'The Old Man and the Sea', 'A story about an old Cuban fisherman and his battle with a giant marlin', 127, 'Fiction'),
+('23456789', 'Pride and Prejudice', 'A romantic novel of manners', 432, 'Classic'),
+('34567890', 'One Hundred Years of Solitude', 'A multi-generational story of the Buendía family', 417, 'Magical Realism');
 
 -- --------------------------------------------------------
 
@@ -89,7 +100,16 @@ CREATE TABLE `ecrit` (
   `ID` int(11) NOT NULL,
   `Num` int(11) NOT NULL,
   `ISSN` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ecrit`
+--
+
+INSERT INTO `ecrit` (`ID`, `Num`, `ISSN`) VALUES
+(1, 1, '12345678'),
+(2, 2, '23456789'),
+(3, 3, '34567890');
 
 --
 -- Indexes for dumped tables
@@ -129,20 +149,17 @@ ALTER TABLE `ecrit`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
-  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `ecrit`
 --
 ALTER TABLE `ecrit`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -153,7 +170,6 @@ ALTER TABLE `ecrit`
 ALTER TABLE `ecrit`
   ADD CONSTRAINT `fk_Author_Num` FOREIGN KEY (`Num`) REFERENCES `author` (`Num`),
   ADD CONSTRAINT `fk_Book_ISSN` FOREIGN KEY (`ISSN`) REFERENCES `book` (`ISSN`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

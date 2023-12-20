@@ -31,24 +31,106 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
-function fetchTableData($conn, $tableName) {
+// Capture search terms for each table
+$searchAdmin = isset($_GET['search_admin']) ? $_GET['search_admin'] : '';
+$searchAuthor = isset($_GET['search_author']) ? $_GET['search_author'] : '';
+$searchBook = isset($_GET['search_book']) ? $_GET['search_book'] : '';
+$searchEcrit = isset($_GET['search_ecrit']) ? $_GET['search_ecrit'] : '';
+
+
+// Modify your fetchTableData function or SQL query for the admin table
+// Function to validate if the provided column is allowed
+function validateColumn($column, $allowedColumns) {
+    return in_array($column, $allowedColumns, true);
+}
+
+function fetchTableData($conn, $tableName, $searchTerm, $searchColumns) {
     try {
-        $stmt = $conn->prepare("SELECT * FROM " . $tableName);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // Handle error appropriately
-        // For debugging purposes, you can uncomment the line below
-        // echo "Error: " . $e->getMessage();
-        return []; // Return an empty array to prevent further errors
+        // Define the allowed columns for each table to prevent SQL injection
+        $allowedColumnsMap = [
+            'admin' => ['FirstName', 'LastName', 'Mail', 'Phone'],
+            'author' => ['FirstName', 'LastName', 'BirthDate', 'Nationality'],
+            'book' => ['Title', 'Summary', 'NbPages', 'Category'],
+            'ecrit' => ['Num', 'ISSN'],
+        ];
+
+        // Check if the table name is valid to prevent SQL injection
+        if (!array_key_exists($tableName, $allowedColumnsMap)) {
+            throw new Exception("Invalid table name");
+        }
+
+        // Retrieve the list of allowed columns for the specified table
+        $allowedColumns = $allowedColumnsMap[$tableName];
+
+        // Filter the search columns to include only those that are allowed
+        $searchColumns = array_filter($searchColumns, function ($column) use ($allowedColumns) {
+            return in_array($column, $allowedColumns, true);
+        });
+
+        // Continue only if there are valid columns to search and a search term is provided
+        if ($searchTerm && !empty($searchColumns)) {
+            $conditions = [];
+            $params = [];
+
+            // Construct the WHERE clause based on the search terms and selected columns
+            foreach ($searchColumns as $column) {
+                if (in_array($column, $allowedColumns)) {
+                    // For each selected column, add a LIKE condition
+                    $conditions[] = "$column LIKE :$column";
+                    $params[":$column"] = '%' . $searchTerm . '%';
+                }
+            }
+
+            // Start building the SQL query
+            $query = "SELECT * FROM $tableName";
+            // If there are conditions, append them to the query
+            if (!empty($conditions)) {
+                $query .= " WHERE " . implode(' OR ', $conditions);
+            }
+
+            // Prepare the SQL statement
+            $stmt = $conn->prepare($query);
+
+            // Bind parameters for the prepared statement
+            foreach ($params as $key => &$val) {
+                $stmt->bindParam($key, $val);
+            }
+
+            // Execute the query and return the results
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            // If no valid columns or no search term, return all records from the table
+            $stmt = $conn->prepare("SELECT * FROM $tableName");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (Exception $e) {
+        // Handle any exceptions and display an error message
+        echo "Error: " . $e->getMessage();
+        // Return an empty array to prevent further errors
+        return [];
     }
 }
 
-// Fetch data from all tables
-$admins = fetchTableData($conn, 'admin');
-$authors = fetchTableData($conn, 'author');
-$books = fetchTableData($conn, 'book');
-$ecrits = fetchTableData($conn, 'ecrit');
+$searchTermAdmin = $_GET['search_term_admin'] ?? '';
+$adminSearchColumns = $_GET['admin_search_columns'] ?? [];
+$admins = fetchTableData($conn, 'admin', $searchTermAdmin, $adminSearchColumns);
+
+
+$searchTermAuthor = $_GET['search_term_author'] ?? '';
+$authorSearchColumns = $_GET['author_search_columns'] ?? [];
+$authors = fetchTableData($conn, 'author', $searchTermAuthor, $authorSearchColumns);
+
+$searchTermBook = $_GET['search_term_book'] ?? '';
+$bookSearchColumns = $_GET['book_search_columns'] ?? [];
+$books = fetchTableData($conn, 'book', $searchTermBook, $bookSearchColumns);
+
+$searchTermEcrit = $_GET['search_term_ecrit'] ?? '';
+$ecritSearchColumns = $_GET['ecrit_search_columns'] ?? [];
+$ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
+
+
 ?>
 
 
@@ -122,6 +204,30 @@ $ecrits = fetchTableData($conn, 'ecrit');
         <!-- Admin Table Section -->
         <section class="table-container">
         <h2>Admins</h2>
+        <form method="get" action="admin_dashboard.php">
+    <input type="text" name="search_term_admin" placeholder="Search admins..." />
+    
+    <!-- Checkboxes for selecting columns to search -->
+    <label>
+        <input type="checkbox" name="admin_search_columns[]" value="FirstName" checked>
+        First Name
+    </label>
+    <label>
+        <input type="checkbox" name="admin_search_columns[]" value="LastName" checked>
+        Last Name
+    </label>
+    <label>
+        <input type="checkbox" name="admin_search_columns[]" value="Mail">
+        Email
+    </label>
+    <label>
+        <input type="checkbox" name="admin_search_columns[]" value="Phone">
+        Phone
+    </label>
+    
+    <!-- Submit button -->
+    <button type="submit">Search</button>
+</form>
         <div class="scrollable-table">
             <!-- Repeat the following table structure for each table -->
             <table>
@@ -152,6 +258,34 @@ $ecrits = fetchTableData($conn, 'ecrit');
 <!-- Author Table Section -->
 <section class="table-container">
     <h2>Authors</h2>
+    <!-- Form for searching the Author table -->
+<!-- Form for searching the Author table -->
+<form method="get" action="admin_dashboard.php">
+    <input type="text" name="search_term_author" placeholder="Search authors..."/>
+    
+    <!-- Checkboxes for selecting columns to search -->
+    <label>
+        <input type="checkbox" name="author_search_columns[]" value="FirstName" checked>
+        First Name
+    </label>
+    <label>
+        <input type="checkbox" name="author_search_columns[]" value="LastName" checked>
+        Last Name
+    </label>
+    <label>
+        <input type="checkbox" name="author_search_columns[]" value="BirthDate">
+        Birthdate
+    </label>
+    <label>
+        <input type="checkbox" name="author_search_columns[]" value="Nationality">
+        Nationality
+    </label>
+    
+    <!-- Submit button -->
+    <button type="submit">Search</button>
+</form>
+
+
     <div class="scrollable-table">
         <table>
             <thead>
@@ -181,6 +315,32 @@ $ecrits = fetchTableData($conn, 'ecrit');
 <!-- Book Table Section -->
 <section class="table-container">
     <h2>Books</h2>
+    <!-- Search form for the Book table -->
+<form method="get" action="admin_dashboard.php">
+    <input type="text" name="search_term_book" placeholder="Search books..." />
+    
+    <!-- Checkboxes for selecting columns to search -->
+    <label>
+        <input type="checkbox" name="book_search_columns[]" value="Title" checked>
+        Title
+    </label>
+    <label>
+        <input type="checkbox" name="book_search_columns[]" value="Summary">
+        Summary
+    </label>
+    <label>
+        <input type="checkbox" name="book_search_columns[]" value="NbPages">
+        Number of Pages
+    </label>
+    <label>
+        <input type="checkbox" name="book_search_columns[]" value="Category">
+        Category
+    </label>
+    
+    <!-- Submit button -->
+    <button type="submit">Search</button>
+</form>
+
     <div class="scrollable-table">
         <table>
             <thead>
@@ -210,6 +370,25 @@ $ecrits = fetchTableData($conn, 'ecrit');
 <!-- Ecrit Table Section -->
 <section class="table-container">
     <h2>Ecrit</h2>
+    <!-- Search form for the Ecrit table -->
+<form method="get" action="admin_dashboard.php">
+    <input type="text" name="search_term_ecrit" placeholder="Search ecrit records..." />
+    
+    <!-- Checkboxes for selecting columns to search -->
+    <label>
+        <input type="checkbox" name="ecrit_search_columns[]" value="Num" checked>
+        Author Num
+    </label>
+    <label>
+        <input type="checkbox" name="ecrit_search_columns[]" value="ISSN" checked>
+        Book ISSN
+    </label>
+    
+    <!-- Submit button -->
+    <button type="submit">Search</button>
+</form>
+
+
     <div class="scrollable-table">
         <table>
             <thead>
