@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $user['Password'])) {
             $_SESSION['user_id'] = $user['ID'];
             $_SESSION['username'] = $user['Mail']; // ou utilisez FirstName et LastName si vous préférez
-            header('Location: dashboard.php');
+            header('Location: ../admin_dashboard/admin_dashboard.php');
             exit();
         } else {
             $error_message = 'Identifiants incorrects';
