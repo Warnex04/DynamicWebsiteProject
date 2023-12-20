@@ -3,7 +3,7 @@ session_start();
 include('../db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $mail = $_POST['username'];
+    $mail = $_POST['email'];
     $password = $_POST['password'];
 
     // Rechercher l'utilisateur dans la base de données
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Vérifiez le mot de passe
         if (password_verify($password, $user['Password'])) {
             $_SESSION['user_id'] = $user['ID'];
-            $_SESSION['username'] = $user['Mail']; // ou utilisez FirstName et LastName si vous préférez
+            $_SESSION['email'] = $user['Mail']; // ou utilisez FirstName et LastName si vous préférez
             header('Location: ../admin_dashboard/admin_dashboard.php');
             exit();
         } else {
@@ -28,27 +28,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="./login design/style.css">
 </head>
-<body>
-    <h2>Login</h2>
-    <?php if (isset($error_message)) : ?>
-        <p style="color: red;"><?php echo $error_message; ?></p>
-    <?php endif; ?>
-    
-    <form method="post" action="">
-        <label for="username">Mail:</label>
-        <input type="email" name="username" required><br>
+
+<body>    
+    <form method="post" action="" class="form">
+        <h2 class="heading">Login</h2>
+        <?php if (isset($error_message)) : ?>
+            <p style="color: red;"><?php echo $error_message; ?></p>
+        <?php endif; ?>
+
+        <div class="input-group">
+        <label for="email">Mail:</label>
+        <input type="email" name="email" required class="input" id="email" placeholder="Email"><br>
+        
         <label for="password">Mot de passe:</label>
-        <input type="password" name="password" required><br>
-        <button type="submit">Connexion</button>
+        <input type="password" name="password" required  class="input" id="password" placeholder="Password"><br>
+        
+        <button type="submit" class="btn">Connexion</button>
+
+        <a href="sign-up.php">Enregistrer</a>
+        </div>
     </form>
-    <a href="sign-up.php">Enregistrer</a>
+    
 
 </body>
 </html>

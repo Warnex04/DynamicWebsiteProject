@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
                 $stmt->execute();
-                header('Location: sign_in.php');
+                header('Location: login.php');
                 exit();
             } catch (PDOException $e) {
                 $error_message = "Erreur: " . $e->getMessage();
