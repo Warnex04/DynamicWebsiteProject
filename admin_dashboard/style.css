@@ -55,11 +55,61 @@ section#stats {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background: #333;
+    color: white;
     text-align: center;
-    padding: 10px 20px;
-    position: absolute;
+    line-height: 30px;
+    height: 30px;
+    position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* creates two columns */
+    grid-gap: 20px; /* space between grid items */
+    margin: 20px 0;
+}
+
+.table-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.scrollable-table {
+    max-height: 200px; /* Or whatever height you prefer */
+    overflow-y: auto; /* This will enable scrolling */
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px; /* To prevent tables from sticking to the bottom of their containers */
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #eee;
+}
+
+td {
+    background-color: #fcfcfc;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Stack the items on top of each other on smaller screens */
+    }
 }
