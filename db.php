@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db_name = 'sign_up-in';
+$db_name = 'mylibrary';
 $username = 'root';
 $password = '';
 

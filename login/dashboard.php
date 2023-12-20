@@ -6,9 +6,9 @@
     }
     $username = $_SESSION['username'];
 
-    include('db.php');
+    include('../db.php');
     // Récupérer tous les utilisateurs
-    $query = "SELECT id, username FROM users";
+    $query = "SELECT id, Mail FROM admin_library WHERE Mail != '{$_SESSION['username']}'";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,7 +34,7 @@
         <label for="user_id">Sélectionnez un utilisateur :</label>
         <select name="user_id" id="user_id">
             <?php foreach ($users as $user): ?>
-                <option value="<?php echo $user['id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
+                <option value="<?php echo $user['id']; ?>"><?php echo htmlspecialchars($user['Mail']); ?></option>
             <?php endforeach; ?>
         </select>
         <button type="submit">Modifier le Mot de Passe</button>
