@@ -3,20 +3,20 @@ session_start();
 include('../db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $identifier = $_POST['identifier'];
+    $mail = $_POST['username'];
     $password = $_POST['password'];
-    var_dump($identifier);
-    // Rechercher l'admin dans la base de données
+
+    // Rechercher l'utilisateur dans la base de données
     $query = "SELECT * FROM admin_library WHERE Mail = :Mail";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':Mail', $identifier, PDO::PARAM_STR);
+    $stmt->bindParam(':Mail', $mail, PDO::PARAM_STR);
     $stmt->execute();
 
     if ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
         // Vérifiez le mot de passe
         if (password_verify($password, $user['Password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['identifier'] = $user['Mail'];
+            $_SESSION['user_id'] = $user['ID'];
+            $_SESSION['username'] = $user['Mail']; // ou utilisez FirstName et LastName si vous préférez
             header('Location: dashboard.php');
             exit();
         } else {
@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,13 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     
     <form method="post" action="">
-        <label for="identifier">Identifier:</label>
-        <input type="text" name="identifier" required><br>
-        <label for="password">Password:</label>
+        <label for="username">Mail:</label>
+        <input type="email" name="username" required><br>
+        <label for="password">Mot de passe:</label>
         <input type="password" name="password" required><br>
-        <button type="submit">Login</button>
+        <button type="submit">Connexion</button>
     </form>
+    <a href="sign-up.php">Enregistrer</a>
 
 </body>
 </html>
-
