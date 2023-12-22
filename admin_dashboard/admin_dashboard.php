@@ -19,7 +19,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
 <?php
 $servername = "localhost"; // usually localhost
 $username = "root";
-$password = "root";
+$password = "";
 $database = "mylibrary";
 
 try {
@@ -156,6 +156,9 @@ $ecrits = fetchTableData($conn, 'ecrit', $searchTermEcrit, $ecritSearchColumns);
         </li>
         <li>
           <a href="site_settings.php">Site Settings</a>
+        </li>
+        <li>
+          <a href="logout.php">Logout</a>
         </li>
       </ul>
     </nav>
