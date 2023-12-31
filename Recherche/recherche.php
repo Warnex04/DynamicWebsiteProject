@@ -1,38 +1,37 @@
 <?php
 session_start();
 
-// Paramètres de connexion à la base de données
+// Database connection parameters
 $host = 'localhost';
 $dbname = 'projetdb';
 $db_username = 'root';
 $db_password = '';
 
-$searchString = ''; // Initialisez $searchString
-$filters = []; // Initialisez les filtres
-$results = []; // Initialisez les résultats
-$uniqueWords = []; // Pour stocker les mots uniques de la catégorie
-$nationalities = []; // Pour stocker les nationalités uniques
+// Initialize variables
+$searchString = '';
+$filters = [];
+$results = [];
+$uniqueWords = [];
+$nationalities = [];
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $db_username, $db_password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Récupérer toutes les catégories
+    // Fetch categories
     $categoryQuery = "SELECT category FROM book";
     $stmt = $pdo->query($categoryQuery);
     $allCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // Diviser chaque catégorie en mots, convertir en minuscules, et les fusionner dans un seul tableau
+    // Process categories
     $allWords = [];
     foreach ($allCategories as $category) {
         $words = explode(' ', strtolower($category));
         $allWords = array_merge($allWords, $words);
     }
-
-    // Filtrer les mots uniques
     $uniqueWords = array_unique($allWords);
 
-    // Récupérer les nationalités uniques
+    // Fetch nationalities
     $nationalityQuery = "SELECT DISTINCT Nationality FROM author";
     $nationalityStmt = $pdo->query($nationalityQuery);
     $nationalities = $nationalityStmt->fetchAll(PDO::FETCH_COLUMN);
@@ -40,50 +39,31 @@ try {
     echo "Erreur : " . $e->getMessage();
 }
 
-// Vérifiez si le formulaire de recherche principal a été soumis
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
-    $searchString = strtolower($_POST['search']);
-    $filters = $_POST['filter'] ?? ['title', 'author']; // Appliquez les filtres par défaut si aucun n'est sélectionné
-    processSearch($pdo, $searchString, $filters);
-}
-
-// Vérifiez si le formulaire de filtre a été soumis
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchString'])) {
-    $searchString = strtolower($_POST['searchString']);
-    $filters = $_POST['filter'] ?? ['title', 'author'];
-    processSearch($pdo, $searchString, $filters);
-}
-
+// Process search
 function processSearch($pdo, $searchString, $filters) {
     global $results;
 
-    // Construisez les conditions de recherche
     $titleAuthorConditions = [];
     $searchParams = [];
     $i = 0;
     if (in_array('title', $filters)) {
-        $i++;
         $titleAuthorConditions[] = "LOWER(book.title) LIKE :searchTitle";
         $searchParams[':searchTitle'] = "%{$searchString}%";
     }
     if (in_array('author', $filters)) {
-        $i++;
         $titleAuthorConditions[] = "LOWER(CONCAT(author.FirstName, ' ', author.LastName)) LIKE :searchAuthor";
         $searchParams[':searchAuthor'] = "%{$searchString}%";
     }
 
-    // Regroupez les conditions de titre et d'auteur avec un OR
     $searchConditions = [];
     if (!empty($titleAuthorConditions)) {
         $searchConditions[] = '(' . implode(' OR ', $titleAuthorConditions) . ')';
     }
 
-    // Conditions pour les mots de catégorie
     $wordConditions = [];
     if (!empty($_POST['filter_word'])) {
         foreach ($_POST['filter_word'] as $word) {
-            $i++;
-            $paramName = ":word$i";
+            $paramName = ":word" . ++$i;
             $wordConditions[] = "LOWER(book.category) LIKE $paramName";
             $searchParams[$paramName] = '%' . $word . '%';
         }
@@ -92,12 +72,10 @@ function processSearch($pdo, $searchString, $filters) {
         $searchConditions[] = '(' . implode(' OR ', $wordConditions) . ')';
     }
 
-    // Conditions pour les nationalités
     $nationalityConditions = [];
     if (!empty($_POST['filter_nationality'])) {
         foreach ($_POST['filter_nationality'] as $nationality) {
-            $i++;
-            $paramName = ":nationality$i";
+            $paramName = ":nationality" . ++$i;
             $nationalityConditions[] = "author.Nationality = $paramName";
             $searchParams[$paramName] = $nationality;
         }
@@ -105,19 +83,17 @@ function processSearch($pdo, $searchString, $filters) {
     if (!empty($nationalityConditions)) {
         $searchConditions[] = '(' . implode(' OR ', $nationalityConditions) . ')';
     }
-    
-    // Construire la requête finale
+
     $query = "
-        SELECT book.title, book.category, CONCAT(author.FirstName, ' ', author.LastName) AS author_name, author.Nationality
-        FROM book 
-        LEFT JOIN ecrit ON ecrit.ISSN = book.ISSN 
-        LEFT JOIN author ON ecrit.Num = author.Num
-    ";
+    SELECT book.ISSN, book.title, book.category, CONCAT(author.FirstName, ' ', author.LastName) AS author_name, author.Nationality
+    FROM book 
+    LEFT JOIN ecrit ON ecrit.ISSN = book.ISSN 
+    LEFT JOIN author ON ecrit.Num = author.Num";
+
     if (!empty($searchConditions)) {
         $query .= " WHERE " . implode(' AND ', $searchConditions);
     }
 
-    // Exécutez la requête préparée
     try {
         $stmt = $pdo->prepare($query);
         foreach ($searchParams as $param => $value) {
@@ -130,8 +106,66 @@ function processSearch($pdo, $searchString, $filters) {
     }
 }
 
+// Check for main search form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
+    $searchString = strtolower($_POST['search']);
+    $filters = $_POST['filter'] ?? ['title', 'author'];
+    processSearch($pdo, $searchString, $filters);
+    $_SESSION['search_results'] = $results;
+}
+
+// Check for filter form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchString'])) {
+    $searchString = strtolower($_POST['searchString']);
+    $filters = $_POST['filter'] ?? ['title', 'author'];
+    processSearch($pdo, $searchString, $filters);
+    $_SESSION['search_results'] = $results;
+}
+
+function getBookDetails($pdo, $issn) {
+    $query = "SELECT book.title, book.summary, book.nbpages, 
+                     author.FirstName, author.LastName, author.BirthDate 
+              FROM book 
+              LEFT JOIN ecrit ON ecrit.ISSN = book.ISSN 
+              LEFT JOIN author ON ecrit.Num = author.Num 
+              WHERE book.ISSN = :issn";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([':issn' => $issn]);
+    $book = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($book) {
+        // Format the array into an HTML structure
+        return "<div class='container'>
+                    <h1>" . htmlspecialchars($book['title']) . "</h1>
+                    <p class='summary'>Résumé: " . htmlspecialchars($book['summary']) . "</p>
+                    <p>Nombre de pages: " . htmlspecialchars($book['nbpages']) . "</p>
+                    <p>Auteur: " . htmlspecialchars($book['FirstName']) . " " . htmlspecialchars($book['LastName']) . "</p>
+                    <p>Date de naissance: " . htmlspecialchars($book['BirthDate']) . "</p>
+                </div>";
+    } else {
+        return "<div class='container'><p class='not-found'>Livre introuvable.</p></div>";
+    }
+}
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['issn'])) {
+    $issn = $_POST['issn'];
+    
+    // Call the function and echo its result
+    echo getBookDetails($pdo, $issn);
+
+    exit();
+}
+
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -504,6 +538,65 @@ nav a:hover {
   transform: rotate(160deg);
 }
 
+/* Modal styles */
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    max-width: 700px;
+    overflow: hidden;
+}
+
+.close-button {
+    color: #0056b3;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Heading and Paragraph */
+#book-details-modal h1 {
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+
+#book-details-modal p {
+    margin: 10px 0;
+}
+
+/* Summary Style */
+.summary {
+    background-color: #eef;
+    padding: 10px;
+    border-left: 4px solid #0056b3;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+
+}
+
 
    </style>
 </head>
@@ -616,30 +709,90 @@ nav a:hover {
         </form>
     </div>
 
-   
-    <!-- The main content of your page -->
-    <!-- The search results and any other content you want to include -->
-    <?php if (!empty($results)): ?>
-        <h2 class="results-heading"><?php echo count($results); ?> résultat(s) trouvé(s) pour '<?php echo htmlspecialchars($searchString); ?>'</h2>
-        <?php foreach ($results as $result): ?>
-            <div class="thesis-box clearfix">
-                <div class="thesis-title"><?php echo htmlspecialchars($result['title']); ?></div>
-                <div class="thesis-details">
-                    écrit par <strong><?php echo htmlspecialchars($result['author_name']); ?></strong>
-                    et sa nationalité <strong><?php echo htmlspecialchars($result['Nationality']); ?></strong>
-                    <span class="thesis-category"><?php echo htmlspecialchars($result['category']); ?></span>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php elseif ($searchString): ?>
-        <p class="results-heading">Aucun résultat trouvé pour '<?php echo htmlspecialchars($searchString); ?>'.</p>
-    <?php endif; ?>
+<!-- The main content of your page -->
+   <!-- The search results and any other content you want to include -->
+   <?php if (!empty($results)): ?>
+       <h2 class="results-heading"><?php echo count($results); ?> résultat(s) trouvé(s) pour '<?php echo htmlspecialchars($searchString); ?>'</h2>
+       
+       <?php foreach ($results as $result): ?>
+           <div class="thesis-box clearfix">
+               <div class="thesis-title">
+                   <!-- Update the link to use JavaScript for AJAX call -->
+                   <a href="javascript:void(0);" onclick="fetchBookDetails('<?php echo htmlspecialchars($result['ISSN']); ?>')">
+                       <?php echo htmlspecialchars($result['title']); ?>
+                   </a>
+               </div>          
+
+               <div class="thesis-details">
+                   écrit par <strong><?php echo htmlspecialchars($result['author_name']); ?></strong>
+                   et sa nationalité <strong><?php echo htmlspecialchars($result['Nationality']); ?></strong>
+                   <span class="thesis-category"><?php echo htmlspecialchars($result['category']); ?></span>
+               </div>
+           </div>
+       <?php endforeach; ?>
+   <?php elseif (isset($searchString) && $searchString != ''): ?>
+       <p class="results-heading">Aucun résultat trouvé pour '<?php echo htmlspecialchars($searchString); ?>'.</p>
+   <?php endif; ?>
+
 </div>
+
+<!-- Container for displaying book details -->
+<div id="book-details-container"></div>
+<!-- Modal structure -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div id="book-details-modal"></div>
+    </div>
+</div>
+
 <!-- jQuery inclusion -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
+ // JavaScript function for AJAX call
+function fetchBookDetails(issn) {
+    $.ajax({
+        url: 'recherche.php',
+        type: 'POST',
+        data: { 'issn': issn },
+        success: function(response) {
+            $('#book-details-modal').html(response);
+            // Show the modal
+            $('#bookModal').css('display', 'block');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX request failed:", textStatus, errorThrown);
+        }
+    });
+}
+
+// When the user clicks on <span> (x), close the modal
+$('.close-button').click(function() {
+    $('#bookModal').css('display', 'none');
+});
+
+// When the user clicks anywhere outside of the modal, close it
+$(window).click(function(event) {
+    if ($(event.target).is('#bookModal')) {
+        $('#bookModal').css('display', 'none');
+    }
+});
+
+
+
 $(function() {
+
+    
+
+     // Event handler for the search form submission
+     $('.search-form').on('submit', function() {
+        // Clear the search results session variable on new search
+        $.post('clear_session.php', function(response) {
+            console.log(response); // Log the response from the server
+        });
+    });
+
     // Event handler for opening the sidebar
     $('#filter-button').click(function() {
         $('.sidebar').toggleClass('active');
@@ -659,6 +812,7 @@ $(function() {
 
         // Here we are not resetting text inputs, as per your requirement
     });
+
 });
 </script>
 
