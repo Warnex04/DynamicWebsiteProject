@@ -613,7 +613,7 @@ nav a:hover {
                     <span class="bar bar1"></span>
                 </button>
             </li>
-            <li><a href="#popular-books">Home </a></li>
+            <li><a href="../home/home.php">Home </a></li>
         </ul>
     </nav>
     <div id="search-bar-container">
