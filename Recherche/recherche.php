@@ -810,7 +810,7 @@ $(function() {
         // Uncheck all checkbox filters in the sidebar
         $('.sidebar input[type="checkbox"]').prop('checked', false);
 
-       
+
     });
 
 });
