@@ -1,0 +1,123 @@
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    background-image: url('background.png'); /* Replace with the path to your image */
+    background-size: cover; /* Cover ensures the image covers the whole area */
+    background-repeat: no-repeat; /* The image won't repeat */
+    background-position: center center; /* Center the image properly */
+    background-attachment: fixed; /* Fixed positioning (optional) */
+}
+
+/* Header styles */
+header {
+    background-color: #005f73; /* Deep blue background */
+    color: white;
+    padding: 1rem 2rem; /* Increased padding for better spacing */
+    display: flex; /* Flexbox for layout */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Space between elements */
+}
+
+/* Navigation styles */
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Flexbox for horizontal layout */
+    margin: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem; /* Padding for clickable area */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+nav a:hover {
+    background-color: #00a896; /* Slightly lighter blue on hover */
+}
+
+/* Search bar styles */
+#search-bar-container {
+    flex-grow: 1; /* Allow the container to grow */
+    display: flex;
+    justify-content: center; /* Center the search bar */
+}
+
+#search-bar {
+    display: flex;
+    align-items: center;
+}
+
+#search-text {
+    padding: 0.5rem;
+    width: 200px;
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ddd; /* Light border */
+    margin-right: 10px;
+}
+
+#search-button {
+    padding: 0.5rem 1rem;
+    background-color: #94d2bd; /* Light green background */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+#search-button:hover {
+    background-color: #82bfb9; /* Slightly darker green on hover */
+}
+
+/* Login button styles */
+#login-button {
+    padding: 0.5rem 1rem;
+    background-color: #00a896; /* Matching the hover color of nav links */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+#login-button:hover {
+    background-color: #007f7f; /* Slightly darker shade for hover */
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    nav ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #search-bar-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #login-button {
+        margin-top: 10px; /* Add space above the login button on small screens */
+    }
+}
