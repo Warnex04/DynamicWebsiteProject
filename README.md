@@ -30,5 +30,5 @@ A step-by-step series of examples that tell you how to get a development environ
 ## Authors
 
 - **Mohammad Baker** - *Initial work and Admin dashboard features* - [Warnex04](https://github.com/Warnex04)
-- **Mohammed Addi** - *Développement de la fonctionnalité de recherche* - [ai-mohammed](https://github.com/ai-mohammed))
+- **Mohammed Addi** - *Développement de la fonctionnalité de recherche* - [ai-mohammed](https://github.com/ai-mohammed)
 
