@@ -31,4 +31,4 @@ A step-by-step series of examples that tell you how to get a development environ
 
 - **Mohammad Baker** - *Initial work and Admin dashboard features* - [Warnex04](https://github.com/Warnex04)
 - **Mohammed Addi** - *Développement de la fonctionnalité de recherche* - [ai-mohammed]([https://github.com/Warnex04](https://github.com/ai-mohammed))
-See also the list of [contributors](https://github.com/DynamicWebsiteProject/contributors) who participated in this project.
+
