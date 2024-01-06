@@ -23,6 +23,18 @@ header {
     justify-content: space-between; /* Space between elements */
 }
 
+/* Footer styles */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 /* Navigation styles */
 nav ul {
     list-style: none;

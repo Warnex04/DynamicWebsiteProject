@@ -10,6 +10,12 @@ $results = [];
 $uniqueWords = [];
 $nationalities = [];
 
+// Database connection parameters
+$host = 'localhost';
+$dbname = 'mylibrary';
+$db_username = 'root';
+$db_password = '';
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $db_username, $db_password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

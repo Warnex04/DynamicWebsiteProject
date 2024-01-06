@@ -61,9 +61,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`ID`, `FirstName`, `LastName`, `Mail`, `Password`, `Phone`) VALUES
-(1, 'John', 'Doe', 'johndoe@example.com', 'hashed_password', '555-1234'),
-(2, 'Jane', 'Smith', 'janesmith@example.com', 'hashed_password', '555-5678'),
-(3, 'Alice', 'Johnson', 'alicejohnson@example.com', 'hashed_password', '555-9012');
+(0, 'test', 'test', 'test@test.fr', '$2y$10$zNXAtc6iU9UEyyL6Ysdxd.JTZ2fYh5Tt40NryG0Yr7ohnqtQnQ86O', 'test');
 
 -- --------------------------------------------------------
 

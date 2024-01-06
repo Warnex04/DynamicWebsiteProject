@@ -16,32 +16,37 @@
             </ul>
         </nav>
         <div id="search-bar-container">
-            <div id="search-bar">
-                <input type="text" id="search-text" placeholder="Rechercher des livres...">
-                <button id="search-button">Rechercher</button>
-            </div>
+            <form action="../Recherche/recherche.php" method="post">
+                <div id="search-bar">
+                    <!--<input type="text" name="search-text" id="search-text" placeholder="Rechercher des livres...">-->
+                    <button id="search-button" href="Recherche\recherche.php">Rechercher</button>
+                </div>
+            </form>
         </div>
+
 
         <a id="login-button" href="../login/login.php">Admin panel</a>
 
     </header>
+   
     <main>
         <section id="new-arrivals">
-            <h2>Nouveautés</h2>
+            <!--<h2>Nouveautés</h2>-->
             <div class="book-grid">
                 <!-- Contenu dynamique ici -->
             </div>
         </section>
         <section id="popular-books">
-            <h2>Livres populaires</h2>
-            <div class="book-grid">
+            <!--<h2>Livres populaires</h2>
+            <div class="book-grid">-->
                 <!-- Contenu dynamique ici -->
             </div>
         </section>
         <!-- Autres sections -->
     </main>
+    
     <footer>
-        <p>&copy; 2023 Portail de la Bibliothèque</p>
+        <!--<p>&copy; 2023 Portail de la Bibliothèque</p>-->
     </footer>
 </body>
 </html>

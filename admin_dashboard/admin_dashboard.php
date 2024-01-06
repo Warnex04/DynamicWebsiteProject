@@ -19,7 +19,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
 <?php
 $servername = "localhost"; // usually localhost
 $username = "root";
-$password = "root";
+$password = "";
 $database = "mylibrary";
 
 try {

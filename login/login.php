@@ -2,12 +2,14 @@
 session_start();
 include('../db.php');
 
+$tableName = 'admin';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail = $_POST['email'];
     $password = $_POST['password'];
 
     // Rechercher l'utilisateur dans la base de données
-    $query = "SELECT * FROM admin_library WHERE Mail = :Mail";
+    $query = "SELECT * FROM $tableName WHERE Mail = :Mail";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':Mail', $mail, PDO::PARAM_STR);
     $stmt->execute();
@@ -55,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <button type="submit" class="btn">Connexion</button>
 
-        <a href="sign-up.php">Enregistrer</a>
         </div>
     </form>
     
