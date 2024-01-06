@@ -9,15 +9,14 @@ $uniqueWords = [];
 $nationalities = [];
 
 // Database connection parameters
-$servername = "localhost"; // usually localhost
-$username = "root";
-$password = "root";
-$database = "mylibrary";
+$host = 'localhost';
+$dbname = 'mylibrary';
+$db_username = 'root';
+$db_password = '';
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $db_username, $db_password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
     // Fetch categories
