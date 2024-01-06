@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 20, 2023 at 01:51 PM
+-- Generation Time: Jan 06, 2024 at 08:22 PM
 -- Server version: 5.7.11
 -- PHP Version: 7.0.3
 
@@ -19,6 +19,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `mylibrary`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log` (
+  `id` int(11) NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `user`, `action`, `date`) VALUES
+(1, 'FakeAdmin', 'Added new book', '2024-01-06'),
+(2, 'FakeAdmin', 'Added new author', '2024-01-06');
 
 -- --------------------------------------------------------
 
@@ -88,7 +109,10 @@ CREATE TABLE `book` (
 INSERT INTO `book` (`ISSN`, `Title`, `Summary`, `NbPages`, `Category`) VALUES
 ('12345678', 'The Old Man and the Sea', 'A story about an old Cuban fisherman and his battle with a giant marlin', 127, 'Fiction'),
 ('23456789', 'Pride and Prejudice', 'A romantic novel of manners', 432, 'Classic'),
-('34567890', 'One Hundred Years of Solitude', 'A multi-generational story of the Buendía family', 417, 'Magical Realism');
+('34567890', 'One Hundred Years of Solitude', 'A multi-generational story of the Buendía family', 417, 'Magical Realism'),
+('45678901', 'Test1', 'Testing insertion', 123, 'Fiction'),
+('45678902', 'Test2', 'Testing refresh after insertion', 1234, 'Fiction2'),
+('45678903', 'Test3', 'Testing activity audit', 12345, 'Fiction3');
 
 -- --------------------------------------------------------
 
@@ -114,6 +138,12 @@ INSERT INTO `ecrit` (`ID`, `Num`, `ISSN`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `activity_log`
+--
+ALTER TABLE `activity_log`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `admin`
@@ -146,6 +176,11 @@ ALTER TABLE `ecrit`
 --
 
 --
+-- AUTO_INCREMENT for table `activity_log`
+--
+ALTER TABLE `activity_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
@@ -154,12 +189,12 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
-  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `ecrit`
 --
 ALTER TABLE `ecrit`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
