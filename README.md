@@ -31,4 +31,4 @@ A step-by-step series of examples that tell you how to get a development environ
 
 - **Mohammad Baker** - *Initial work and Admin dashboard features* - [Warnex04](https://github.com/Warnex04)
 - **Mohammed Addi** - *Développement de la fonctionnalité de recherche* - [ai-mohammed](https://github.com/ai-mohammed)
-
+- **Maxime Viel** - *Sécurisation du site et connexion des administrateurs, création de la page d'accueil* - [Maximus](https://github.com/PapyRGB)
