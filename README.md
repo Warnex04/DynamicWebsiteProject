@@ -30,5 +30,5 @@ A step-by-step series of examples that tell you how to get a development environ
 ## Authors
 
 - **Mohammad Baker** - *Initial work and Admin dashboard features* - [Warnex04](https://github.com/Warnex04)
-- **Mohammed Addi** - *Développement de la fonctionnalité de recherche* - [ai-mohammed](https://github.com/ai-mohammed)
-
+- **Mohammed Addi** - *Development of the search functionality* - [ai-mohammed](https://github.com/ai-mohammed)
+- **Maxime Viel** - *Securing the site and connecting the administrators, creating the welcome page* - [Maximus](https://github.com/PapyRGB)
