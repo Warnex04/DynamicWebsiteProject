@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-// Database connection parameters
-$host = 'localhost';
-$dbname = 'projetdb';
-$db_username = 'root';
-$db_password = '';
+include('../db.php');
 
 // Initialize variables
 $searchString = '';
