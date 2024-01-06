@@ -29,6 +29,6 @@ A step-by-step series of examples that tell you how to get a development environ
 
 ## Authors
 
-- **Mohammad Baker** - *Initial work* - [Warnex04](https://github.com/Warnex04)
+- **Mohammad Baker** - *Initial work and Admin dashboard features* - [Warnex04](https://github.com/Warnex04)
 
 See also the list of [contributors](https://github.com/DynamicWebsiteProject/contributors) who participated in this project.
