@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 06, 2024 at 08:22 PM
+-- Generation Time: Jan 06, 2024 at 09:22 PM
 -- Server version: 5.7.11
 -- PHP Version: 7.0.3
 
@@ -111,8 +111,8 @@ INSERT INTO `book` (`ISSN`, `Title`, `Summary`, `NbPages`, `Category`) VALUES
 ('23456789', 'Pride and Prejudice', 'A romantic novel of manners', 432, 'Classic'),
 ('34567890', 'One Hundred Years of Solitude', 'A multi-generational story of the Buendía family', 417, 'Magical Realism'),
 ('45678901', 'Test1', 'Testing insertion', 123, 'Fiction'),
-('45678902', 'Test2', 'Testing refresh after insertion', 1234, 'Fiction2'),
-('45678903', 'Test3', 'Testing activity audit', 12345, 'Fiction3');
+('45678902', 'Test2', 'Testing refresh after insertion', 1234, 'Fiction'),
+('45678903', 'Test3', 'Testing activity audit', 12345, 'Fiction');
 
 -- --------------------------------------------------------
 
@@ -189,12 +189,12 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
-  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `ecrit`
 --
 ALTER TABLE `ecrit`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
